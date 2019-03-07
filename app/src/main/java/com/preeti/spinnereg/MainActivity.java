@@ -1,62 +1,88 @@
 package com.preeti.spinnereg;
-
-import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
-import java.util.ArrayList;
-import java.util.List;
+import android.widget.TextView;
 
-public class MainActivity extends Activity implements AdapterView.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
+    Spinner classSpinner, divSpinner;
+    String selectedClass ,selectedDiv;
+    TextView tv_selecteditems;
 
-    Spinner CountrySpinner,StatesSpinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        CountrySpinner = (Spinner)findViewById(R.id.spinner1);
-        StatesSpinner = (Spinner)findViewById(R.id.spinner2);
-        CountrySpinner.setOnItemSelectedListener(this);
-    }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        classSpinner = (Spinner) findViewById(R.id.classSpinner);
+        divSpinner = (Spinner) findViewById(R.id.divSpinner);
+        tv_selecteditems=(TextView)findViewById(R.id.tv_selecteditems);
 
-        String sp1= String.valueOf(CountrySpinner.getSelectedItem());
-        Toast.makeText(this, sp1, Toast.LENGTH_SHORT).show();
-        if(sp1.contentEquals("India")) {
-            List<String> list = new ArrayList<String>();
-            list.add("Madhya Pradesh");
-            list.add("Uttar Pradesh");
-            list.add("Karnataka");
-            list.add("Andhra Pradesh");
-            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_spinner_item, list);
-            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            dataAdapter.notifyDataSetChanged();
-            StatesSpinner.setAdapter(dataAdapter);
-        }
-        if(sp1.contentEquals("Pakistan")) {
-            List<String> list = new ArrayList<String>();
-            list.add("Sindh");
-            list.add("Islamabad");
-            list.add("Punjab");
-            list.add("Balochistan");
-            ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_spinner_item, list);
-            dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            dataAdapter2.notifyDataSetChanged();
-            StatesSpinner.setAdapter(dataAdapter2);
-        }
-    }
+        classSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                 selectedClass = parent.getItemAtPosition(position).toString();
+                switch (selectedClass)
+                {
+                    case "Class 1":
+                        divSpinner.setAdapter(new ArrayAdapter<String>(MainActivity.this,
+                                android.R.layout.simple_spinner_dropdown_item,
+                                getResources().getStringArray(R.array.items_div_class_1)));
+                        break;
 
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
+                    case "Class 2":
+                        divSpinner.setAdapter(new ArrayAdapter<String>(MainActivity.this,
+                                android.R.layout.simple_spinner_dropdown_item,
+                                getResources().getStringArray(R.array.items_div_class_2)));
+                        break;
 
+                    case "Class 3":
+                        divSpinner.setAdapter(new ArrayAdapter<String>(MainActivity.this,
+                                android.R.layout.simple_spinner_dropdown_item,
+                                getResources().getStringArray(R.array.items_div_class_3)));
+                        break;
+
+                    case "Class 4":
+                        divSpinner.setAdapter(new ArrayAdapter<String>(MainActivity.this,
+                                android.R.layout.simple_spinner_dropdown_item,
+                                getResources().getStringArray(R.array.items_div_class_4)));
+                        break;
+                }
+
+                divSpinner.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+
+            }
+        });
+
+        divSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                selectedDiv = parent.getItemAtPosition(position).toString();
+
+              /*  Toast.makeText(MainActivity.this, "\n Class: \t " + selectedClass +
+                        "\n Div: \t" + selectedDiv, Toast.LENGTH_LONG).show();*/
+                tv_selecteditems.setText(selectedClass+ " : "+ selectedDiv);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+
+            }
+
+        });
     }
 }
