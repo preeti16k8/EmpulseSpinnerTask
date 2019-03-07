@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">SpinnerEg</string>
+    <string name="Country">Select Country</string>
+    <string name="States">Select States</string>
+
+    <string-array name="Country_name">
+        <item>India</item>
+        <item>Pakistan</item>
+    </string-array>
+</resources>
